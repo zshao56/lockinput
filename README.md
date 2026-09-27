@@ -6,9 +6,9 @@
 
 ## 下载与安装
 
-支持 **Apple Silicon（M 芯片）**、macOS 13 或更新版本。从 [GitHub Releases](https://github.com/zshao56/lockinput/releases/latest) 下载 `LockInput-v0.1.0-arm64.dmg`，打开后将 `InputSourceLock.app` 拖入 Applications。
+支持 **Apple Silicon（M 芯片）**、macOS 13 或更新版本。从 [GitHub Releases](https://github.com/zshao56/lockinput/releases/latest) 下载 `LockInput-v0.1.1-arm64.dmg`，打开后将 `InputSourceLock.app` 拖入 Applications。
 
-App 只在菜单栏显示一个图标，不显示文字，也不占用 Dock。图标分别表示未锁定、已锁定和已暂停。首次启动会把当前输入来源设为主要目标，但**不会自动开启锁定**。点击菜单栏图标，选择“主要输入法”，再点击“锁定输入法”。
+App 只在菜单栏显示一个白色单色图标，不显示文字，也不占用 Dock。图标由键盘和小锁组成：开锁表示未锁定，闭锁表示已锁定，警告标记表示暂停。首次启动会把当前输入来源设为主要目标，但**不会自动开启锁定**。点击菜单栏图标，选择“主要输入法”，再点击“锁定输入法”。
 
 DMG 中的 App 使用临时签名，尚未经过 Apple Developer ID 公证。其他 Mac 可能出现系统信任提示；需要无此限制的分发版本时，须完成 Developer ID 签名与公证。
 

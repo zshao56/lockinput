@@ -32,26 +32,42 @@ public final class StatusMenuController: NSObject, NSMenuDelegate {
         let primaryDisplayName = primarySource?.name ?? (state.primaryID ?? "未选择")
 
         if let button = statusItem.button {
-            let symbolName: String
+            let badgeName: String
             let description: String
             if state.isPaused {
-                symbolName = "exclamationmark.triangle.fill"
+                badgeName = "exclamationmark.triangle.fill"
                 description = "输入法锁定已暂停：\(state.pauseReason ?? "未知原因")"
             } else if state.isLocked {
-                symbolName = "lock.fill"
+                badgeName = "lock.fill"
                 description = "已锁定输入法：\(primaryDisplayName)"
             } else {
-                symbolName = "lock.open.fill"
+                badgeName = "lock.open.fill"
                 description = "输入法未锁定；主要输入法：\(primaryDisplayName)"
             }
             button.title = ""
-            let configuration = NSImage.SymbolConfiguration(pointSize: 16, weight: .semibold)
-            button.image = NSImage(systemSymbolName: symbolName, accessibilityDescription: description)?
-                .withSymbolConfiguration(configuration)
-            button.image?.isTemplate = true
+            button.image = makeKeyboardStatusImage(badgeName: badgeName)
             button.imagePosition = .imageOnly
             button.toolTip = description
         }
+    }
+
+    private func makeKeyboardStatusImage(badgeName: String) -> NSImage? {
+        let keyboardConfig = NSImage.SymbolConfiguration(pointSize: 18, weight: .regular)
+        let badgeConfig = NSImage.SymbolConfiguration(pointSize: 10, weight: .semibold)
+        guard let keyboard = NSImage(systemSymbolName: "keyboard.fill", accessibilityDescription: nil)?
+            .withSymbolConfiguration(keyboardConfig),
+              let badge = NSImage(systemSymbolName: badgeName, accessibilityDescription: nil)?
+                .withSymbolConfiguration(badgeConfig) else {
+            return nil
+        }
+
+        let image = NSImage(size: NSSize(width: 28, height: 18), flipped: false) { _ in
+            keyboard.draw(in: NSRect(x: 0, y: 3, width: 21, height: 14))
+            badge.draw(in: NSRect(x: 17, y: 0, width: 11, height: 12))
+            return true
+        }
+        image.isTemplate = true
+        return image
     }
 
     // MARK: - NSMenuDelegate
