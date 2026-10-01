@@ -45,24 +45,31 @@ public final class StatusMenuController: NSObject, NSMenuDelegate {
                 description = "输入法未锁定；主要输入法：\(primaryDisplayName)"
             }
             button.title = ""
-            button.image = makeKeyboardStatusImage(badgeName: badgeName)
+            let letter = InputSourceMonogram.letter(name: primarySource?.name, id: state.primaryID)
+            button.image = makeStatusImage(letter: letter, badgeName: badgeName)
             button.imagePosition = .imageOnly
             button.toolTip = description
         }
     }
 
-    private func makeKeyboardStatusImage(badgeName: String) -> NSImage? {
-        let keyboardConfig = NSImage.SymbolConfiguration(pointSize: 18, weight: .regular)
+    private func makeStatusImage(letter: String, badgeName: String) -> NSImage? {
         let badgeConfig = NSImage.SymbolConfiguration(pointSize: 10, weight: .semibold)
-        guard let keyboard = NSImage(systemSymbolName: "keyboard.fill", accessibilityDescription: nil)?
-            .withSymbolConfiguration(keyboardConfig),
-              let badge = NSImage(systemSymbolName: badgeName, accessibilityDescription: nil)?
+        guard let badge = NSImage(systemSymbolName: badgeName, accessibilityDescription: nil)?
                 .withSymbolConfiguration(badgeConfig) else {
             return nil
         }
 
-        let image = NSImage(size: NSSize(width: 28, height: 18), flipped: false) { _ in
-            keyboard.draw(in: NSRect(x: 0, y: 3, width: 21, height: 14))
+        let image = NSImage(size: NSSize(width: 28, height: 20), flipped: false) { _ in
+            let attributes: [NSAttributedString.Key: Any] = [
+                .font: NSFont.systemFont(ofSize: 16, weight: .bold),
+                .foregroundColor: NSColor.black
+            ]
+            let text = letter as NSString
+            let textSize = text.size(withAttributes: attributes)
+            text.draw(
+                at: NSPoint(x: max(0, (18 - textSize.width) / 2), y: (20 - textSize.height) / 2),
+                withAttributes: attributes
+            )
             badge.draw(in: NSRect(x: 17, y: 0, width: 11, height: 12))
             return true
         }
@@ -160,7 +167,7 @@ public final class StatusMenuController: NSObject, NSMenuDelegate {
 
         // 6. Quit
         let quitItem = NSMenuItem(
-            title: "退出 InputSourceLock",
+            title: "退出 BoardLock",
             action: #selector(quitAppClicked),
             keyEquivalent: "q"
         )

@@ -124,6 +124,15 @@ final class TestRunner {
         print("  InputSourceLock Pure Logic & Throttling Test Suite")
         print("==================================================")
 
+        runTest("菜单栏字母标识") {
+            assertEqual(InputSourceMonogram.letter(name: "微信输入法", id: "com.tencent.inputmethod.wetype.pinyin"), "W")
+            assertEqual(InputSourceMonogram.letter(name: "豆包输入法", id: "com.example.doubao"), "D")
+            assertEqual(InputSourceMonogram.letter(name: "ABC", id: "com.apple.keylayout.ABC"), "A")
+            assertEqual(InputSourceMonogram.letter(name: "搜狗拼音", id: "com.example.sogou"), "S")
+            assertEqual(InputSourceMonogram.letter(name: nil, id: "com.tencent.inputmethod.wetype.pinyin"), "W")
+            assertEqual(InputSourceMonogram.letter(name: nil, id: nil), "?")
+        }
+
         // 1. Apple 布局同 bundle 不误并
         runTest("Apple 布局同 bundle 不误并") {
             let store = InMemoryLockStateStore()

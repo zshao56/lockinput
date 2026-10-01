@@ -7,7 +7,7 @@ let package = Package(
         .macOS(.v13)
     ],
     products: [
-        .executable(name: "InputSourceLock", targets: ["InputSourceLockApp"]),
+        .executable(name: "BoardLock", targets: ["InputSourceLockApp"]),
         .library(name: "InputSourceLockCore", targets: ["InputSourceLockCore"]),
         .executable(name: "InputSourceLockTests", targets: ["InputSourceLockTests"])
     ],
